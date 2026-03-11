@@ -1,0 +1,6 @@
+@echo off
+echo Starting API Server in Dev mode (Hot Reload)...
+start cmd /k "uvicorn api:app --reload"
+echo Starting Voice Assistant...
+python main.py
+pause
