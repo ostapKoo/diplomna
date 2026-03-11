@@ -32,7 +32,8 @@ def run_dast_scan():
         print("Переконайтеся, що програма OWASP ZAP запущена і порт співпадає.")
         return
 
-    cert_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "zap_cert.pem")
+    cert_path = os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), "zap_cert.pem")
 
     if not os.path.exists(cert_path):
         print(f"❌ ПОМИЛКА: Не знайдено файл '{cert_path}'")
@@ -41,16 +42,13 @@ def run_dast_scan():
 
     print(f"🔐 Використовуємо сертифікат: {cert_path}")
 
-
     print("🔄 Налаштування проксі для перехоплення трафіку...")
-
 
     os.environ["HTTP_PROXY"] = f"http://{ZAP_PROXY_HOST}:{ZAP_PROXY_PORT}"
     os.environ["HTTPS_PROXY"] = f"http://{ZAP_PROXY_HOST}:{ZAP_PROXY_PORT}"
 
     os.environ["REQUESTS_CA_BUNDLE"] = cert_path
     os.environ["CURL_CA_BUNDLE"] = cert_path
-
 
     os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = cert_path
 
@@ -71,9 +69,7 @@ def run_dast_scan():
 
         time.sleep(2)
 
-
     print("\n📊 Аналіз результатів сканування в ZAP...")
-
 
     time.sleep(3)
 
@@ -91,7 +87,6 @@ def run_dast_scan():
             risk = alert.get('risk')
             name = alert.get('name')
             print(f"{risk:<15} | {name}")
-
 
     os.environ.pop("HTTP_PROXY", None)
     os.environ.pop("HTTPS_PROXY", None)

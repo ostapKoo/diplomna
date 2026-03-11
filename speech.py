@@ -11,7 +11,8 @@ def take_command(timeout=5, phrase_time_limit=10) -> str:
         with sr.Microphone() as source:
             print("\n🎤 Говоріть зараз...")
 
-            audio = r.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
+            audio = r.listen(source, timeout=timeout,
+                             phrase_time_limit=phrase_time_limit)
             print("🧠 Розпізнавання...")
 
             query = r.recognize_google(audio, language='uk-UA')

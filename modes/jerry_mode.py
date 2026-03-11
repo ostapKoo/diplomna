@@ -17,5 +17,4 @@ def run_jerry_mode():
 
         answer = ask_gemini(query)
 
-
         speak(answer[:400])

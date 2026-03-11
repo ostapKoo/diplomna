@@ -35,4 +35,4 @@ def ask_gemini(prompt: str) -> str:
         return response.text
     except Exception as e:
         print(f"❌ Помилка Gemini: {e}")
-        return f"❌ Виникла помилка під час відповіді."
+        return "❌ Виникла помилка під час відповіді."

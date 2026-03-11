@@ -12,6 +12,7 @@ import tts
 original_speak = tts.speak
 tom_voice_enabled = True
 
+
 def conditional_speak(text):
     global tom_voice_enabled
     if tom_voice_enabled:
@@ -47,7 +48,8 @@ def tom_menu_kb(voice_enabled):
     # Ряд 3: Яскравість (ПОВЕРНУЛИ!)
     markup.add("🌑 Яскравість -10%", "🔅 Яскравість +10%")
     # Ряд 4: Інтерактив
-    markup.add("💬 Повідомлення на ПК", "🎮 Запустити гру", "⏰ Нагадування на ПК")
+    markup.add("💬 Повідомлення на ПК",
+               "🎮 Запустити гру", "⏰ Нагадування на ПК")
     # Ряд 5: Додатки
     markup.add("📝 Записати нотатку", "🌐 Браузер", "📂 Провідник")
     # Ряд 6: Статус
@@ -62,6 +64,7 @@ def tom_menu_kb(voice_enabled):
 
     markup.add("🔙 Головне меню")
     return markup
+
 
 def cancel_action_kb():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -98,33 +101,39 @@ def jerry_active_kb():
 @bot.message_handler(commands=['start'])
 def start_message(message):
     user_states[message.chat.id] = {'mode': 'menu'}
-    bot.send_message(message.chat.id, "Привіт! Оберіть режим роботи:", reply_markup=main_menu_kb())
+    bot.send_message(
+        message.chat.id, "Привіт! Оберіть режим роботи:", reply_markup=main_menu_kb())
 
 
 @bot.message_handler(func=lambda m: m.text in ["🔙 Головне меню"])
 def exit_modes(message):
     user_states[message.chat.id] = {'mode': 'menu'}
-    bot.send_message(message.chat.id, "Головне меню:", reply_markup=main_menu_kb())
+    bot.send_message(message.chat.id, "Головне меню:",
+                     reply_markup=main_menu_kb())
 
 
 @bot.message_handler(func=lambda message: message.text == "🐱 Режим Том (ПК)")
 def tom_mode(message):
     global tom_voice_enabled
     user_states[message.chat.id] = {'mode': 'tom'}
-    bot.send_message(message.chat.id, "🐱 Режим керування ПК активний:", reply_markup=tom_menu_kb(tom_voice_enabled))
+    bot.send_message(message.chat.id, "🐱 Режим керування ПК активний:",
+                     reply_markup=tom_menu_kb(tom_voice_enabled))
 
 
 @bot.message_handler(func=lambda message: message.text == "🐭 Режим Джері (ШІ)")
 def jerry_mode(message):
     user_states[message.chat.id] = {'mode': 'jerry_setup'}
-    bot.send_message(message.chat.id, "🐭 Джері готовий. Де виводити відповідь?", reply_markup=jerry_settings_kb())
+    bot.send_message(message.chat.id, "🐭 Джері готовий. Де виводити відповідь?",
+                     reply_markup=jerry_settings_kb())
 
 
 @bot.message_handler(func=lambda m: m.text in ["📱 Відповідати в Телеграм", "💻 Озвучити на ПК"])
 def set_jerry_output(message):
     output_type = "tg" if "Телеграм" in message.text else "pc"
-    user_states[message.chat.id] = {'mode': 'jerry_chat', 'output': output_type}
-    bot.send_message(message.chat.id, "Готово! Чекаю на ваше запитання.", reply_markup=jerry_active_kb())
+    user_states[message.chat.id] = {
+        'mode': 'jerry_chat', 'output': output_type}
+    bot.send_message(message.chat.id, "Готово! Чекаю на ваше запитання.",
+                     reply_markup=jerry_active_kb())
 
 
 # ==========================================
@@ -141,7 +150,8 @@ def handle_tom_commands(message):
         # --- 1. ПЕРЕВІРКА ПІДРЕЖИМІВ (Діалоги) ---
         if text == "🚫 Скасувати дію":
             state['sub_mode'] = None
-            bot.reply_to(message, "Дію скасовано.", reply_markup=tom_menu_kb(tom_voice_enabled))
+            bot.reply_to(message, "Дію скасовано.",
+                         reply_markup=tom_menu_kb(tom_voice_enabled))
             return
 
         if state.get('sub_mode') == 'waiting_for_message':
@@ -155,18 +165,22 @@ def handle_tom_commands(message):
             if text in utils.get_games_list():
                 utils.launch_game(text)
                 state['sub_mode'] = None
-                bot.reply_to(message, f"✅ Запускаю {text} на ПК!", reply_markup=tom_menu_kb(tom_voice_enabled))
+                bot.reply_to(message, f"✅ Запускаю {text} на ПК!", reply_markup=tom_menu_kb(
+                    tom_voice_enabled))
             else:
-                bot.reply_to(message, "Будь ласка, оберіть гру з кнопок нижче.")
+                bot.reply_to(
+                    message, "Будь ласка, оберіть гру з кнопок нижче.")
             return
 
         if state.get('sub_mode') == 'waiting_for_reminder_time':
             if text.isdigit():
                 state['reminder_time'] = int(text)
                 state['sub_mode'] = 'waiting_for_reminder_text'
-                bot.reply_to(message, "Відмінно. Тепер напишіть **ТЕКСТ** нагадування:", parse_mode="Markdown")
+                bot.reply_to(
+                    message, "Відмінно. Тепер напишіть **ТЕКСТ** нагадування:", parse_mode="Markdown")
             else:
-                bot.reply_to(message, "❌ Помилка: Введіть тільки число (кількість хвилин).")
+                bot.reply_to(
+                    message, "❌ Помилка: Введіть тільки число (кількість хвилин).")
             return
 
         if state.get('sub_mode') == 'waiting_for_reminder_text':
@@ -186,12 +200,14 @@ def handle_tom_commands(message):
         # Кнопки меню
         if text == "💬 Повідомлення на ПК":
             state['sub_mode'] = 'waiting_for_message'
-            bot.reply_to(message, "Напишіть текст, який ви хочете вивести на екран:", reply_markup=cancel_action_kb())
+            bot.reply_to(message, "Напишіть текст, який ви хочете вивести на екран:",
+                         reply_markup=cancel_action_kb())
             return
 
         elif text == "🎮 Запустити гру":
             state['sub_mode'] = 'waiting_for_game'
-            bot.reply_to(message, "Оберіть гру зі списку:", reply_markup=games_kb())
+            bot.reply_to(message, "Оберіть гру зі списку:",
+                         reply_markup=games_kb())
             return
 
         elif text == "⏰ Нагадування на ПК":
@@ -203,10 +219,12 @@ def handle_tom_commands(message):
         #  команди
         if text == "🔇 Вимкнути озвучку дій ПК":
             tom_voice_enabled = False
-            bot.reply_to(message, "✅ Озвучку ВИМКНЕНО.", reply_markup=tom_menu_kb(tom_voice_enabled))
+            bot.reply_to(message, "✅ Озвучку ВИМКНЕНО.",
+                         reply_markup=tom_menu_kb(tom_voice_enabled))
         elif text == "🔊 Увімкнути озвучку дій ПК":
             tom_voice_enabled = True
-            bot.reply_to(message, "✅ Озвучку УВІМКНЕНО.", reply_markup=tom_menu_kb(tom_voice_enabled))
+            bot.reply_to(message, "✅ Озвучку УВІМКНЕНО.",
+                         reply_markup=tom_menu_kb(tom_voice_enabled))
         elif text == "🔅 Яскравість +10%":
             utils.change_brightness(10)
         elif text == "🌑 Яскравість -10%":
@@ -227,7 +245,8 @@ def handle_tom_commands(message):
             utils.open_browser()
         elif text == "📝 Записати нотатку":
             state['sub_mode'] = 'waiting_for_note'
-            bot.reply_to(message, "Напишіть текст, який потрібно зберегти у нотатки:", reply_markup=cancel_action_kb())
+            bot.reply_to(message, "Напишіть текст, який потрібно зберегти у нотатки:",
+                         reply_markup=cancel_action_kb())
             return
         elif text == "📂 Провідник":
             utils.open_explorer()
@@ -237,7 +256,8 @@ def handle_tom_commands(message):
             file_path = utils.take_screenshot("temp_screen.png")
             if file_path and os.path.exists(file_path):
                 with open(file_path, 'rb') as photo:
-                    bot.send_photo(message.chat.id, photo, caption="📸 Ваш екран")
+                    bot.send_photo(message.chat.id, photo,
+                                   caption="📸 Ваш екран")
                 os.remove(file_path)
         elif text == "🔒 Заблокувати":
             utils.lock_pc()
@@ -257,7 +277,6 @@ def handle_tom_commands(message):
                 state['sub_mode'] = None
                 return
 
-
             elif text == "💻 Диспетчер процесів":
                 state['sub_mode'] = 'waiting_for_process_kill'
                 process_list = utils.get_top_processes()
@@ -271,7 +290,8 @@ def handle_tom_commands(message):
 
     except Exception as e:
         state['sub_mode'] = None
-        bot.reply_to(message, f"❌ Помилка: {e}", reply_markup=tom_menu_kb(tom_voice_enabled))
+        bot.reply_to(
+            message, f"❌ Помилка: {e}", reply_markup=tom_menu_kb(tom_voice_enabled))
 
 
 # ==========================================
@@ -285,11 +305,12 @@ def handle_jerry_chat(message):
     output_type = user_states[message.chat.id].get('output', 'tg')
 
     if output_type == 'tg':
-        bot.send_message(message.chat.id, response_text, reply_markup=jerry_active_kb())
+        bot.send_message(message.chat.id, response_text,
+                         reply_markup=jerry_active_kb())
     else:
-        bot.send_message(message.chat.id, "🔊 Озвучую відповідь на ПК...", reply_markup=jerry_active_kb())
+        bot.send_message(
+            message.chat.id, "🔊 Озвучую відповідь на ПК...", reply_markup=jerry_active_kb())
         original_speak(response_text)
-
 
 
 @bot.message_handler(func=lambda message: True)

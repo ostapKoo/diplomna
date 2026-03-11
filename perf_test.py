@@ -11,6 +11,7 @@ try:
 except ImportError as e:
     print(f"⚠️ Помилка імпорту модулів: {e}")
 
+
 def test_api_call():
     """Емуляція запиту до API для тесту пам'яті та часу."""
     prompt = "Розкажи короткий жарт."
@@ -47,7 +48,8 @@ if __name__ == "__main__":
             print(f"   Run {i + 1}: {dur:.4f} sec")
 
         avg_latency = sum(latencies) / len(latencies) if latencies else 0
-        print(f"📊 API Stats: Avg Latency: {avg_latency:.4f}s | Peak Memory: {peak_mem:.2f} MiB")
+        print(
+            f"📊 API Stats: Avg Latency: {avg_latency:.4f}s | Peak Memory: {peak_mem:.2f} MiB")
 
     except Exception as e:
         print(f"❌ Помилка у тесті 1: {e}")
@@ -65,16 +67,16 @@ if __name__ == "__main__":
     ps.print_stats(10)
     print(s.getvalue())
 
-
     print("\nModule Import Time (Cold Start Simulation)")
 
     try:
         start_import = time.time()
-        import pycaw
-        import screen_brightness_control
+        #import pycaw
+#        import screen_brightness_control
 
         end_import = time.time()
-        print(f"⏱️ Import Time (External Libs Check): {end_import - start_import:.4f} sec")
+        print(
+            f"⏱️ Import Time (External Libs Check): {end_import - start_import:.4f} sec")
     except Exception as e:
         print(f"⚠️ Помилка імпорту: {e}")
 

@@ -1,14 +1,14 @@
 import os
 import time
-from pathlib import Path
-import math
+#from pathlib import Path
+#import math
 import ctypes
-import urllib.parse
+#import urllib.parse
 import threading
 
 
 from tts import speak
-from speech import take_command
+#from speech import take_command
 
 
 volume_control = None
@@ -100,7 +100,6 @@ def open_task_manager():
     os.system("taskmgr")
 
 
-
 def lock_pc():
     speak("Блокую комп'ютер.")
     os.system("rundll32.exe user32.dll,LockWorkStation")
@@ -121,7 +120,6 @@ def cancel_shutdown():
     os.system("shutdown /a")
 
 
-
 def open_google(): open_browser("google.com")
 
 
@@ -132,7 +130,8 @@ def open_wikipedia(): open_browser("uk.wikipedia.org")
 
 
 def get_system_stats():
-    if not PSUTIL_LOADED: return "❌ Модуль psutil не завантажено."
+    if not PSUTIL_LOADED:
+        return "❌ Модуль psutil не завантажено."
     cpu = psutil.cpu_percent(interval=1)
     ram = psutil.virtual_memory().percent
     disk = psutil.disk_usage('C:').percent
@@ -150,15 +149,18 @@ def take_screenshot(filename="screenshot.png"):
 
 
 def media_play_pause():
-    if PYAUTOGUI_LOADED: pyautogui.press('playpause')
+    if PYAUTOGUI_LOADED:
+        pyautogui.press('playpause')
 
 
 def media_next():
-    if PYAUTOGUI_LOADED: pyautogui.press('nexttrack')
+    if PYAUTOGUI_LOADED:
+        pyautogui.press('nexttrack')
 
 
 def media_prev():
-    if PYAUTOGUI_LOADED: pyautogui.press('prevtrack')
+    if PYAUTOGUI_LOADED:
+        pyautogui.press('prevtrack')
 
 
 def set_master_volume(level_percent: int):
@@ -200,7 +202,8 @@ def toggle_mute():
 
 
 def set_brightness(level_percent: int):
-    if not SBC_LOADED: return
+    if not SBC_LOADED:
+        return
     if 0 <= level_percent <= 100:
         try:
             sbc.set_brightness(level_percent)
@@ -210,14 +213,14 @@ def set_brightness(level_percent: int):
 
 
 def change_brightness(step_percent: int):
-    if not SBC_LOADED: return
+    if not SBC_LOADED:
+        return
     try:
         current = int(sbc.get_brightness(display=0)[0])
         new_percent = max(0, min(100, current + step_percent))
         set_brightness(new_percent)
     except:
         pass
-
 
 
 GAMES = {
@@ -247,13 +250,13 @@ def launch_game(game_name):
 
 
 def _show_popup(text):
-    ctypes.windll.user32.MessageBoxW(0, text, "Повідомлення з Телеграм 💬", 0x40000 | 0x40)
+    ctypes.windll.user32.MessageBoxW(
+        0, text, "Повідомлення з Телеграм 💬", 0x40000 | 0x40)
 
 
 def show_message_on_screen(text):
     speak("Вам нове повідомлення на екрані.")
     threading.Thread(target=_show_popup, args=(text,), daemon=True).start()
-
 
 
 def _reminder_popup(text):
@@ -269,6 +272,7 @@ def set_reminder(minutes, text):
 
     threading.Timer(minutes * 60.0, reminder_task).start()
     speak(f"Таймер на {minutes} хвилин встановлено.")
+
 
 def _flash_and_speak(text):
     root = tk.Tk()
@@ -299,6 +303,7 @@ def set_reminder(minutes, text):
     threading.Timer(minutes * 60.0, reminder_task).start()
     speak(f"Таймер на {minutes} хвилин встановлено.")
 
+
 def write_note(text):
     """Зберігає текст у файл notes.txt із вказанням часу"""
     try:
@@ -313,7 +318,8 @@ def write_note(text):
 
 def get_top_processes():
     """Повертає топ-15 процесів, що споживають найбільше пам'яті"""
-    if not PSUTIL_LOADED: return "❌ Модуль psutil не завантажено."
+    if not PSUTIL_LOADED:
+        return "❌ Модуль psutil не завантажено."
 
     processes = []
     for proc in psutil.process_iter(['name', 'memory_percent']):
@@ -323,7 +329,8 @@ def get_top_processes():
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
-    processes = sorted(processes, key=lambda p: p['memory_percent'] if p['memory_percent'] else 0, reverse=True)
+    processes = sorted(
+        processes, key=lambda p: p['memory_percent'] if p['memory_percent'] else 0, reverse=True)
 
     text = "💻 Топ-15 процесів (ОЗП):\n\n"
     seen_names = set()
@@ -335,14 +342,16 @@ def get_top_processes():
             text += f"▪️ `{name}` — {mem}%\n"
             seen_names.add(name)
             count += 1
-        if count >= 15: break
+        if count >= 15:
+            break
 
     return text
 
 
 def kill_process(process_name):
     """Зупиняє процес за його назвою (наприклад: chrome.exe)"""
-    if not PSUTIL_LOADED: return False
+    if not PSUTIL_LOADED:
+        return False
     try:
         process_name = process_name.strip().lower()
         if not process_name.endswith('.exe'):
@@ -358,7 +367,8 @@ def kill_process(process_name):
                 pass
 
         if killed:
-            speak(f"Процес {process_name.replace('.exe', '')} успішно завершено.")
+            speak(
+                f"Процес {process_name.replace('.exe', '')} успішно завершено.")
             return True
         else:
             speak(f"Не знайшов процес {process_name}.")

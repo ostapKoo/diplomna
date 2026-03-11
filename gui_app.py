@@ -63,16 +63,14 @@ class ModernAssistantGUI(ctk.CTk):
         )
         self.logo_label.grid(row=0, column=0, padx=20, pady=(30, 30))
 
-
         self.start_voice_btn = ctk.CTkButton(
-        self.sidebar_frame,
+            self.sidebar_frame,
             text="🎤 Старт Голосу",
             command=self.start_voice_assistant,
             fg_color="#2ecc71",
             hover_color="#27ae60"
         )
         self.start_voice_btn.grid(row=1, column=0, padx=20, pady=10)
-
 
         self.tg_switch_var = ctk.StringVar(value="off")
         self.tg_switch = ctk.CTkSwitch(
@@ -88,8 +86,8 @@ class ModernAssistantGUI(ctk.CTk):
         self.tg_switch.grid(row=2, column=0, padx=20, pady=(20, 10))
 
         if not bot_loaded:
-            self.tg_switch.configure(state="disabled", text="ТГ Бот недоступний")
-
+            self.tg_switch.configure(
+                state="disabled", text="ТГ Бот недоступний")
 
         self.settings_btn = ctk.CTkButton(
             self.sidebar_frame,
@@ -99,7 +97,6 @@ class ModernAssistantGUI(ctk.CTk):
             hover_color="#e67e22"
         )
         self.settings_btn.grid(row=3, column=0, padx=20, pady=30)
-
 
         self.exit_btn = ctk.CTkButton(
             self.sidebar_frame,
@@ -130,7 +127,8 @@ class ModernAssistantGUI(ctk.CTk):
             corner_radius=10,
             text_color="#e0e0e0"
         )
-        self.log_area.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="nsew")
+        self.log_area.grid(row=1, column=0, padx=10,
+                           pady=(0, 10), sticky="nsew")
         self.log_area.configure(state="disabled")
 
         self.status_var = ctk.StringVar(value="Готовий до запуску...")
@@ -140,8 +138,8 @@ class ModernAssistantGUI(ctk.CTk):
             font=ctk.CTkFont(size=12, slant="italic"),
             text_color="#95a5a6"
         )
-        self.status_label.grid(row=1, column=1, padx=20, pady=(0, 10), sticky="w")
-
+        self.status_label.grid(row=1, column=1, padx=20,
+                               pady=(0, 10), sticky="w")
 
     def open_settings(self):
         """Відкриває вікно для введення API ключів"""
@@ -154,13 +152,14 @@ class ModernAssistantGUI(ctk.CTk):
         ctk.CTkLabel(settings_win, text="🔧 Налаштування Токенів", font=ctk.CTkFont(size=18, weight="bold")).pack(
             pady=15)
 
-
-        ctk.CTkLabel(settings_win, text="Telegram Bot Token:").pack(anchor="w", padx=30)
-        tg_entry = ctk.CTkEntry(settings_win, width=390, show="*", placeholder_text="Вставте токен від BotFather...")
+        ctk.CTkLabel(settings_win, text="Telegram Bot Token:").pack(
+            anchor="w", padx=30)
+        tg_entry = ctk.CTkEntry(settings_win, width=390, show="*",
+                                placeholder_text="Вставте токен від BotFather...")
         tg_entry.pack(pady=(0, 15), padx=30)
 
-
-        ctk.CTkLabel(settings_win, text="Gemini API Key:").pack(anchor="w", padx=30)
+        ctk.CTkLabel(settings_win, text="Gemini API Key:").pack(
+            anchor="w", padx=30)
         gemini_entry = ctk.CTkEntry(settings_win, width=390, show="*",
                                     placeholder_text="Вставте ключ від Google AI Studio...")
         gemini_entry.pack(pady=(0, 20), padx=30)
@@ -168,7 +167,6 @@ class ModernAssistantGUI(ctk.CTk):
         def save_keys():
             tg_token = tg_entry.get().strip()
             gemini_key = gemini_entry.get().strip()
-
 
             env_vars = {}
             if os.path.exists(".env"):
@@ -178,10 +176,10 @@ class ModernAssistantGUI(ctk.CTk):
                             k, v = line.strip().split("=", 1)
                             env_vars[k] = v
 
-
-            if tg_token: env_vars["TELEGRAM_BOT_TOKEN"] = tg_token
-            if gemini_key: env_vars["GEMINI_API_KEY"] = gemini_key
-
+            if tg_token:
+                env_vars["TELEGRAM_BOT_TOKEN"] = tg_token
+            if gemini_key:
+                env_vars["GEMINI_API_KEY"] = gemini_key
 
             try:
                 with open(".env", "w", encoding="utf-8") as file:
@@ -194,8 +192,8 @@ class ModernAssistantGUI(ctk.CTk):
                 )
                 settings_win.destroy()
             except Exception as e:
-                messagebox.showerror("Помилка", f"Не вдалося зберегти файл: {e}")
-
+                messagebox.showerror(
+                    "Помилка", f"Не вдалося зберегти файл: {e}")
 
         ctk.CTkButton(
             settings_win,
@@ -208,7 +206,6 @@ class ModernAssistantGUI(ctk.CTk):
         ctk.CTkLabel(settings_win, text="*Ключі приховані для вашої безпеки", text_color="gray",
                      font=("Arial", 10)).pack()
 
-
     def start_voice_assistant(self):
         if not assistant_loaded:
             messagebox.showerror("Помилка!", "Файл main.py не знайдено!")
@@ -217,7 +214,8 @@ class ModernAssistantGUI(ctk.CTk):
         self.start_voice_btn.configure(state="disabled", text="Голос активний")
         self.status_var.set("Асистент запускається...")
 
-        self.voice_thread = threading.Thread(target=main_assistant, daemon=True)
+        self.voice_thread = threading.Thread(
+            target=main_assistant, daemon=True)
         self.voice_thread.start()
 
     def toggle_telegram_bot(self):
@@ -226,20 +224,23 @@ class ModernAssistantGUI(ctk.CTk):
         if state == "on" and not self.is_bot_running:
             self.is_bot_running = True
             self.status_var.set("Запуск Telegram-бота...")
-            self.tg_thread = threading.Thread(target=self.run_telegram_bot, daemon=True)
+            self.tg_thread = threading.Thread(
+                target=self.run_telegram_bot, daemon=True)
             self.tg_thread.start()
 
         elif state == "off" and self.is_bot_running:
             self.is_bot_running = False
             self.status_var.set("Зупинка Telegram-бота...")
-            threading.Thread(target=self.stop_telegram_bot, daemon=True).start()
+            threading.Thread(target=self.stop_telegram_bot,
+                             daemon=True).start()
 
     def run_telegram_bot(self):
         try:
             print("⏳ Підключення до Telegram...")
             telegram_bot.bot.remove_webhook()
             print("🚀 Telegram бот успішно запущено!")
-            telegram_bot.bot.infinity_polling(timeout=10, long_polling_timeout=5)
+            telegram_bot.bot.infinity_polling(
+                timeout=10, long_polling_timeout=5)
         except Exception as e:
             print(f"❌ Помилка ТГ бота: {e}")
             self.is_bot_running = False
@@ -256,7 +257,6 @@ class ModernAssistantGUI(ctk.CTk):
             telegram_bot.bot.stop_polling()
         self.destroy()
         sys.exit()
-
 
     def check_log_queue(self):
         try:
@@ -290,7 +290,8 @@ class ModernAssistantGUI(ctk.CTk):
             self.queue = queue
 
         def write(self, text):
-            if text.strip(): self.queue.put(text)
+            if text.strip():
+                self.queue.put(text)
 
         def flush(self):
             pass

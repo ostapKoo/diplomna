@@ -21,18 +21,14 @@ class TestTomJerryLogic(unittest.TestCase):
         self.assertIsNone(_parse_number_from_query("гучність багато"))
         self.assertIsNone(_parse_number_from_query("текст без чисел"))
 
-
     @patch('utils.volume_control')
     @patch('utils.PYCAW_LOADED', True)
     def test_change_volume_clamping_max(self, mock_volume):
         """Перевірка, що гучність не перевищує 100%."""
 
-
         mock_volume.GetMasterVolumeLevelScalar.return_value = 0.95
 
-
         utils.change_volume(10)
-
 
         mock_volume.SetMasterVolumeLevelScalar.assert_called_with(1.0, None)
 
@@ -41,15 +37,11 @@ class TestTomJerryLogic(unittest.TestCase):
     def test_change_volume_clamping_min(self, mock_volume):
         """Перевірка, що гучність не падає нижче 0%."""
 
-
         mock_volume.GetMasterVolumeLevelScalar.return_value = 0.05
-
 
         utils.change_volume(-10)
 
-
         mock_volume.SetMasterVolumeLevelScalar.assert_called_with(0.0, None)
-
 
     @patch('gemini_client.model')
     def test_ask_gemini_success(self, mock_model):

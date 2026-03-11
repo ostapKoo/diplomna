@@ -119,7 +119,6 @@ def execute_tom_command(command):
     elif "провідник" in command or "папк" in command:
         utils.open_explorer()
 
-
     elif "гучніст" in command or "гучність" in command:
         num = _parse_number_from_query(command)
         if num is not None:

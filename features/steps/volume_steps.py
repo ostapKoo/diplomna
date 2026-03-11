@@ -26,7 +26,8 @@ def step_impl(context, command):
 def step_impl(context, expected_vol):
     expected_val = int(expected_vol)
     expected_scalar = expected_val / 100.0
-    context.mock_volume.SetMasterVolumeLevelScalar.assert_called_with(expected_scalar, None)
+    context.mock_volume.SetMasterVolumeLevelScalar.assert_called_with(
+        expected_scalar, None)
 
 
 @then('the system volume should remain unchanged')

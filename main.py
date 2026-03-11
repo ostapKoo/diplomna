@@ -12,7 +12,6 @@ def main_assistant():
         if query == "none":
             continue
 
-
         if any(x in query for x in ["том", "тома", "тон", "дом", "там", "дім", "томас"]):
             run_tom_mode()
 

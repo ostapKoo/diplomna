@@ -25,11 +25,9 @@ def run_sast_scan():
         print(f"❌ Помилка запуску: {e}")
         return
 
-
     if not os.path.exists(output_file):
         print("⚠️ Файл звіту не створено.")
         return
-
 
     try:
         with open(output_file, "r", encoding="utf-8") as f:
