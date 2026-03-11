@@ -29,7 +29,7 @@ try:
     print("✅ Модуль 'pycaw' завантажено.")
     PYCAW_LOADED = True
 except Exception as e:
-    print(f"❌ Помилка 'pycaw': {e}")
+    print(f" Помилка 'pycaw': {e}")
     PYCAW_LOADED = False
 
 
@@ -39,7 +39,7 @@ try:
     print("✅ Модуль 'screen_brightness_control' завантажено.")
     SBC_LOADED = True
 except Exception as e:
-    print(f"❌ Помилка 'sbc': {e}")
+    print(f" Помилка 'sbc': {e}")
     SBC_LOADED = False
 
 try:
@@ -48,7 +48,7 @@ try:
     print("✅ Модуль 'pyautogui' завантажено.")
     PYAUTOGUI_LOADED = True
 except Exception as e:
-    print(f"❌ Помилка 'pyautogui': {e}")
+    print(f" Помилка 'pyautogui': {e}")
     PYAUTOGUI_LOADED = False
 
 try:
@@ -57,7 +57,7 @@ try:
     print("✅ Модуль 'psutil' завантажено.")
     PSUTIL_LOADED = True
 except Exception as e:
-    print(f"❌ Помилка 'psutil': {e}")
+    print(f"Помилка 'psutil': {e}")
     PSUTIL_LOADED = False
 
 
@@ -131,7 +131,7 @@ def open_wikipedia(): open_browser("uk.wikipedia.org")
 
 def get_system_stats():
     if not PSUTIL_LOADED:
-        return "❌ Модуль psutil не завантажено."
+        return " Модуль psutil не завантажено."
     cpu = psutil.cpu_percent(interval=1)
     ram = psutil.virtual_memory().percent
     disk = psutil.disk_usage('C:').percent
@@ -319,7 +319,7 @@ def write_note(text):
 def get_top_processes():
     """Повертає топ-15 процесів, що споживають найбільше пам'яті"""
     if not PSUTIL_LOADED:
-        return "❌ Модуль psutil не завантажено."
+        return " Модуль psutil не завантажено."
 
     processes = []
     for proc in psutil.process_iter(['name', 'memory_percent']):
