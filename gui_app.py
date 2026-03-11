@@ -33,7 +33,6 @@ class ModernAssistantGUI(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-
         self.title("Голосовий Асистент: Том і Джері")
         self.geometry("850x600")
         self.minsize(700, 500)
@@ -66,7 +65,7 @@ class ModernAssistantGUI(ctk.CTk):
 
 
         self.start_voice_btn = ctk.CTkButton(
-            self.sidebar_frame,
+        self.sidebar_frame,
             text="🎤 Старт Голосу",
             command=self.start_voice_assistant,
             fg_color="#2ecc71",
