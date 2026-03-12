@@ -3,33 +3,24 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import uuid
 import time
+import asyncio
 from pydantic import BaseModel
 from logger_config import logger, trace_id_var
 
 app = FastAPI(title="Tom and Jerry API", version="1.0")
 
-
 class CommandRequest(BaseModel):
     command: str
     target: str
 
-
-
 @app.middleware("http")
 async def log_requests_and_trace(request: Request, call_next):
-
     trace_id = str(uuid.uuid4())[:8]
     trace_id_var.set(trace_id)
 
-
     start_time = time.time()
-
-
     response = await call_next(request)
-
-
     process_time = (time.time() - start_time) * 1000
-
 
     logger.info(
         f"HTTP {request.method} {request.url.path} | Status: {response.status_code} | Time: {process_time:.2f}ms",
@@ -38,8 +29,6 @@ async def log_requests_and_trace(request: Request, call_next):
 
     response.headers["X-Trace-ID"] = trace_id
     return response
-
-
 
 @app.exception_handler(StarletteHTTPException)
 async def custom_404_handler(request: Request, exc: StarletteHTTPException):
@@ -54,8 +43,6 @@ async def custom_404_handler(request: Request, exc: StarletteHTTPException):
         )
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
-
-
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     current_trace_id = trace_id_var.get()
@@ -69,12 +56,18 @@ async def global_exception_handler(request: Request, exc: Exception):
         }
     )
 
-
-@app.post("/execute", summary="Виконати команду")
+@app.post("/execute", summary="Виконати команду (Оптимізовано)")
 async def execute_command(req: CommandRequest):
     logger.info(f"Отримано команду: '{req.command}' для {req.target}", extra={'context': 'UserRequest'})
 
     if req.command.lower() == "зламайся":
         raise ValueError("Критичний збій бази даних! (Тест для Sentry)")
 
-    return {"status": "success", "message": f"{req.target.capitalize()} отримав команду: {req.command}"}
+
+    def heavy_sync_task():
+        time.sleep(0.1)
+        return f"{req.target.capitalize()} успішно обробив: {req.command}"
+
+    result_message = await asyncio.to_thread(heavy_sync_task)
+
+    return {"status": "success", "message": result_message}

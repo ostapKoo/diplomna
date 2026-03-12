@@ -69,3 +69,36 @@ ValueError: Критичний збій бази даних! (Тест для Se
 2026-03-12 15:28:50 | INFO     | TraceID: 4b565ee8 | [api.py:34] | Context:HTTP_Traffic | HTTP GET /test | Status: 404 | Time: 3.00ms
 2026-03-12 15:28:50 | WARNING  | TraceID: 29d7c4f8 | [api.py:47] | Context:404_Error | Спроба доступу до неіснуючої сторінки: /favicon.ico
 2026-03-12 15:28:50 | INFO     | TraceID: 29d7c4f8 | [api.py:34] | Context:HTTP_Traffic | HTTP GET /favicon.ico | Status: 404 | Time: 2.00ms
+2026-03-12 15:58:28 | INFO     | TraceID: SYSTEM | [tts.py:46] | Context:TTS | Озвучення: Асистент Том і Джері активовано.
+2026-03-12 15:58:36 | INFO     | TraceID: SYSTEM | [tts.py:46] | Context:TTS | Озвучення: Асистент Том і Джері активовано.
+2026-03-12 15:59:28 | INFO     | TraceID: d2fcf85b | [api.py:25] | Context:HTTP_Traffic | HTTP GET /docs | Status: 200 | Time: 0.00ms
+2026-03-12 15:59:28 | INFO     | TraceID: 2b4fc58a | [api.py:25] | Context:HTTP_Traffic | HTTP GET /openapi.json | Status: 200 | Time: 10.52ms
+2026-03-12 15:59:40 | INFO     | TraceID: 77ed8e59 | [api.py:61] | Context:UserRequest | Отримано команду: 'привіт' для string
+2026-03-12 15:59:40 | INFO     | TraceID: 77ed8e59 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 110.92ms
+2026-03-12 15:59:50 | INFO     | TraceID: 86ee728c | [api.py:61] | Context:UserRequest | Отримано команду: 'привіт' для string
+2026-03-12 15:59:51 | INFO     | TraceID: 86ee728c | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 103.25ms
+2026-03-12 15:59:51 | INFO     | TraceID: 59befba4 | [api.py:61] | Context:UserRequest | Отримано команду: 'привіт' для string
+2026-03-12 15:59:51 | INFO     | TraceID: 59befba4 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 102.67ms
+2026-03-12 16:09:52 | INFO     | TraceID: ec262d8e | [api.py:61] | Context:UserRequest | Отримано команду: 'як справи' для string
+2026-03-12 16:09:52 | INFO     | TraceID: ec262d8e | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 103.73ms
+2026-03-12 16:09:58 | INFO     | TraceID: 6d81e889 | [api.py:61] | Context:UserRequest | Отримано команду: 'як день пройшов' для string
+2026-03-12 16:09:59 | INFO     | TraceID: 6d81e889 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 104.04ms
+2026-03-12 16:10:10 | INFO     | TraceID: 7e0742eb | [api.py:61] | Context:UserRequest | Отримано команду: 'як тобі погода' для string
+2026-03-12 16:10:11 | INFO     | TraceID: 7e0742eb | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 102.71ms
+2026-03-12 16:10:23 | INFO     | TraceID: 1fa619ea | [api.py:61] | Context:UserRequest | Отримано команду: 'які плани' для string
+2026-03-12 16:10:23 | INFO     | TraceID: 1fa619ea | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 102.63ms
+2026-03-12 16:17:18 | INFO     | TraceID: SYSTEM | [tts.py:46] | Context:TTS | Озвучення: Привіт.
+2026-03-12 16:17:22 | INFO     | TraceID: SYSTEM | [tts.py:46] | Context:TTS | Озвучення: Асистент Том і Джері готовий до роботи та чекає на ваші команди.
+2026-03-12 16:17:32 | INFO     | TraceID: SYSTEM | [tts.py:46] | Context:TTS | Озвучення: Голосові асистенти стали невід'ємною частиною сучасного світу. Вони допомагають швидко знаходити інформацію, керувати комп'ютером та оптимізувати щоденні рутинні завдання абсолютно без використання клавіатури чи миші.
+2026-03-12 16:21:08 | INFO     | TraceID: eecb479a | [api.py:25] | Context:HTTP_Traffic | HTTP GET /docs | Status: 200 | Time: 0.00ms
+2026-03-12 16:21:08 | INFO     | TraceID: bdfac3cc | [api.py:25] | Context:HTTP_Traffic | HTTP GET /openapi.json | Status: 200 | Time: 6.80ms
+2026-03-12 16:21:16 | INFO     | TraceID: ad9afdca | [api.py:61] | Context:UserRequest | Отримано команду: 'Привіт' для string
+2026-03-12 16:21:16 | INFO     | TraceID: ad9afdca | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 108.56ms
+2026-03-12 16:21:22 | INFO     | TraceID: e1315232 | [api.py:61] | Context:UserRequest | Отримано команду: 'Як справи' для string
+2026-03-12 16:21:22 | INFO     | TraceID: e1315232 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 112.51ms
+2026-03-12 16:21:30 | INFO     | TraceID: be2d1db5 | [api.py:61] | Context:UserRequest | Отримано команду: 'Як день пройшов' для string
+2026-03-12 16:21:30 | INFO     | TraceID: be2d1db5 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 102.53ms
+2026-03-12 16:21:43 | INFO     | TraceID: d13edb66 | [api.py:61] | Context:UserRequest | Отримано команду: 'Які плани?' для string
+2026-03-12 16:21:43 | INFO     | TraceID: d13edb66 | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 102.82ms
+2026-03-12 16:21:54 | INFO     | TraceID: d11a08ef | [api.py:61] | Context:UserRequest | Отримано команду: 'Що робив?' для string
+2026-03-12 16:21:54 | INFO     | TraceID: d11a08ef | [api.py:25] | Context:HTTP_Traffic | HTTP POST /execute | Status: 200 | Time: 103.24ms

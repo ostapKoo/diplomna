@@ -7,7 +7,7 @@ from contextvars import ContextVar
 try:
     import sentry_sdk
     from sentry_sdk.integrations.logging import LoggingIntegration
-
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
 
     SENTRY_DSN = os.getenv("SENTRY_DSN",
                            "https://2bd4ee5282e962214c6063842c12aee8@o4511031676108800.ingest.de.sentry.io/4511031683645520")
@@ -19,10 +19,13 @@ try:
         )
         sentry_sdk.init(
             dsn=SENTRY_DSN,
-            integrations=[sentry_logging],
+            integrations=[
+                sentry_logging,
+                FastApiIntegration()
+            ],
             traces_sample_rate=1.0
         )
-        print("✅ Sentry успішно ініціалізовано!")
+        print("✅ Sentry успішно ініціалізовано з APM-моніторингом!")
 except ImportError:
     print("⚠️ Бібліотеку sentry-sdk не встановлено. Логи будуть лише локальними.")
 
