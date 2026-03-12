@@ -65,3 +65,7 @@ Traceback (most recent call last):
   File "C:\Users\serhii\PycharmProjects\Tom_and_Jerry\api.py", line 53, in execute_command
     raise ValueError("Критичний збій бази даних! (Тест для Sentry)")
 ValueError: Критичний збій бази даних! (Тест для Sentry)
+2026-03-12 15:28:50 | WARNING  | TraceID: 4b565ee8 | [api.py:47] | Context:404_Error | Спроба доступу до неіснуючої сторінки: /test
+2026-03-12 15:28:50 | INFO     | TraceID: 4b565ee8 | [api.py:34] | Context:HTTP_Traffic | HTTP GET /test | Status: 404 | Time: 3.00ms
+2026-03-12 15:28:50 | WARNING  | TraceID: 29d7c4f8 | [api.py:47] | Context:404_Error | Спроба доступу до неіснуючої сторінки: /favicon.ico
+2026-03-12 15:28:50 | INFO     | TraceID: 29d7c4f8 | [api.py:34] | Context:HTTP_Traffic | HTTP GET /favicon.ico | Status: 404 | Time: 2.00ms
