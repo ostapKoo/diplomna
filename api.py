@@ -1,32 +1,43 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+import uuid
 from pydantic import BaseModel
-
-app = FastAPI(
-    title="Tom and Jerry Assistant API",
-    description="Інтерактивна OpenAPI документація для керування голосовим асистентом.",
-    version="1.0.0"
-)
+from logger_config import logger
+app = FastAPI(title="Tom and Jerry API", version="1.0")
 
 
 class CommandRequest(BaseModel):
-    command_text: str
-    target: str  # "tom" або "jerry"
+    command: str
+    target: str
 
 
-class CommandResponse(BaseModel):
-    status: str
-    response_message: str
+# 75% та 100%)
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    # Генеруємо унікальний ID помилки
+    error_id = str(uuid.uuid4())[:8]
+
+    # Логуємо ТЕХНІЧНІ деталі для розробника у файл
+    logger.error(f"ErrorID: {error_id} | Path: {request.url.path} | Текст помилки: {str(exc)}", exc_info=True,
+                 extra={'context': 'API_Error'})
+
+    # Повертаємо локалізовані відповідь користувачу
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error_id": error_id,
+            "message": "Ой! Виникла непередбачена помилка системи.",
+            "instruction": "Будь ласка, збережіть код помилки та передайте його адміністратору.",
+            "technical_details": "Технічні деталі приховані з міркувань безпеки."
+        }
+    )
 
 
-@app.post("/execute", response_model=CommandResponse, summary="Виконати команду")
-async def execute_command(request: CommandRequest):
-    """
-    Виконує системну команду (Том) або запит до ШІ (Джері).
+@app.post("/execute", summary="Виконати команду")
+async def execute_command(req: CommandRequest):
+    logger.info(f"Отримано команду: {req.command} для {req.target}", extra={'context': 'UserRequest'})
 
-    - **command_text**: Текст команди (наприклад, "відкрий браузер" або "напиши вірш").
-    - **target**: Вказує, кому адресована команда ("tom" або "jerry").
-    """
+    if req.command == "зламайся":
+        raise ValueError("Штучний збій бази даних!")
 
-    if request.target.lower() == "tom":
-        return {"status": "success", "response_message": f"Том виконав системну команду: {request.command_text}"}
-    return {"status": "success", "response_message": f"Джері згенерував відповідь на: {request.command_text}"}
+    return {"status": "success", "message": f"{req.target.capitalize()} отримав команду: {req.command}"}
